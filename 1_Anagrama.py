@@ -27,4 +27,3 @@ def anagrama(a, b):
         return True
     else:
         return False
-
