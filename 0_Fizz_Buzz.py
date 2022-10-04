@@ -17,3 +17,6 @@
 # - Revisaré el ejercicio en directo desde Twitch el lunes siguiente al de su publicación.
 # - Subiré una posible solución al ejercicio el lunes siguiente al de su publicación.
 #
+
+for i in range(0,101):
+    if i\3 == 0:
