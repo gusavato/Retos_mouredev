@@ -21,5 +21,10 @@
 def anagrama(a, b):
     if a.lower() == b.lower():
         return False
-    if len(a) != len(b):
+    elif len(a) != len(b):
         return False
+    elif list(a.lower()).sort() == list(b.lower()).sort():
+        return True
+    else:
+        return False
+
