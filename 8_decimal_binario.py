@@ -2,11 +2,15 @@
 # decimal a binario sin utilizar funciones propias del lenguaje que lo hagan directamente.
 
 def a_binario(dec):
-    binary = ''
-    while binary != 1:
-        binary += str(dec % 2)
+    binario = ''
+    while True:
+        binario += str(dec % 2)
         dec = dec // 2
-    return int(binary)
+        if dec == 1:
+            binario += '1'
+            break
+    return int(binario[::-1])
 
 
-print(a_binario(10))
+numero = int(input('Introduzca número para pasar a binanrio: \n'))
+print('La expresión en base binaria del número {} es: \n {}'.format(numero, a_binario(numero)))
