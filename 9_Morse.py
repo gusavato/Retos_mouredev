@@ -16,7 +16,7 @@ import numpy as np
 def is_morse(txt):
     if type(txt) != str:
         print("No se ha introducido una cadena de texto \nFIN DEL PROGRAMA")
-        return None
+        return False
     elif set(txt).issubset({'.', '-', ' '}):
         return True
     else:
@@ -55,4 +55,8 @@ for key_morse in morse.keys():
     morse[key_morse] = morse[key_morse].replace('·', '.')
     morse[key_morse] = morse[key_morse].replace('—', '-')
 
-print(morse_trad('HOLA MUNDO'))
+input_text = input('Introduzca el texto a traducir:\n')
+
+print("La cadena introducida {cod}. Su traducción es la siguinte:"
+      "\n{trad}".format(cod='es morse' if is_morse(input_text) else 'no es morse',
+                        trad=morse_trad(input_text)))
