@@ -10,3 +10,6 @@
 # - Paréntesis, llaves y corchetes son igual de prioritarios. No hay uno más importante que otro.
 # - Expresión balanceada: { [ a #( c + d ) ] - 5 }
 # - Expresión no balanceada: { a #( c + d ) ] - 5 }
+
+def check_delimiter(expresion):
+    for char in expresion:
