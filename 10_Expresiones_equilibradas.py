@@ -12,4 +12,21 @@
 # - Expresión no balanceada: { a #( c + d ) ] - 5 }
 
 def check_delimiter(expresion):
-    for char in expresion:
+    delimiter = {'[': ']', '{': '}', '(': ')'}
+    for pos, char in enumerate(expresion):
+        if char in delimiter.keys():
+            if delimiter.get(char) in expresion[pos:]:
+                delimiter_end = expresion.index(delimiter.get(char))
+                check_delimiter(expresion[pos+1:delimiter_end])
+            else:
+                print('Expresión NO EQUILIBRADA no se ha encontrado el caracter {} de cierre\n'
+                      '{}'
+                      .format(delimiter.get(char), expresion))
+                return False
+    print('Expresión EQUILIBRADA')
+    return True
+
+
+check_delimiter('{a * [(b - c)}')
+
+
