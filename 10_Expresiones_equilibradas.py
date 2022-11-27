@@ -17,16 +17,21 @@ def check_delimiter(expresion):
         if char in delimiter.keys():
             if delimiter.get(char) in expresion[pos:]:
                 delimiter_end = expresion.index(delimiter.get(char))
-                check_delimiter(expresion[pos+1:delimiter_end])
+                if set(expresion[pos + 1:delimiter_end]) & (set(delimiter.keys() | set(delimiter.values()))):
+                    check_delimiter(expresion[pos + 1:delimiter_end])
+                else:
+                    break
             else:
-                print('Expresión NO EQUILIBRADA no se ha encontrado el caracter {} de cierre\n'
-                      '{}'
-                      .format(delimiter.get(char), expresion))
+                print('Expresión NO EQUILIBRADA no se ha encontrado el caracter {} de cierre\n{}'.
+                      format(delimiter[char], expresion))
                 return False
+        elif char in delimiter.values():
+            print('Expresión NO EQUILIBRADA no se ha encontrado el caracter {} de apertura\n{}'.
+                  format(list(delimiter.keys())[list(delimiter.values()).index(char)], expresion))
+            return False
     print('Expresión EQUILIBRADA')
     return True
 
 
-check_delimiter('{a * [(b - c)}')
-
-
+expr = input('Introducir expresión:\n')
+check_delimiter(expr)
