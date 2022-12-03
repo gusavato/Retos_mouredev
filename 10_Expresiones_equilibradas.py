@@ -12,22 +12,23 @@
 # - Expresión no balanceada: { a #( c + d ) ] - 5 }
 
 
-def extract_delimiters(exp: object, delim: object) -> list:
+def extract_delimiters(exp: str, delimiters: dict) -> list:
     exp_delim = []
     for char in exp:
-        if char in delim.values() | delim.keys():
+        if char in delimiters.values() | delimiters.keys():
             exp_delim.append(char)
     return exp_delim
 
 
-def get_delimiters_count(delimiter_list,delimiters):
+def get_delimiters_count(delimiter_list: list, delimiters: dict) -> dict:
     count = dict()
     for k, v in delimiters.items():
-        delimiter_count[k] = delimiter_list.count(k)
-        delimiter_count.update({v: delimiter_list.count(v)})
+        count[k] = delimiter_list.count(k)
+        count.update({v: delimiter_list.count(v)})
     return count
 
-def open_equal_close(delimiter_list,delimiters):
+
+def open_equal_close(delimiter_list: list, delimiters: dict) -> bool:
     delimiters_count = get_delimiters_count(delimiter_list, delimiters)
     for k, v in delimiters.items():
         if delimiters_count.get(k) == delimiters_count.get(v):
@@ -37,13 +38,25 @@ def open_equal_close(delimiter_list,delimiters):
     return True
 
 
+def recursive_check(delimiter_list: list, delimiters: dict) -> bool:
+    if delimiter_list == []:
+        return True
+    for pos, char in enumerate(delimiter_list):
+        if char in delimiters.values():
+            return False
+        else:
+            end_delimiter = delimiter_list.index(delimiters.get(char))
+            return recursive_check(delimiter_list[pos + 1: end_delimiter], delimiters)
+
+
 def check_delimiter():
     expresion = input('Introducir expresión:\n')
     delimiters = {'[': ']', '{': '}', '(': ')'}
-    exp_delim = extract_delimiters(expresion, delimiters)
-    if open_equal_close(exp_delim,delimiters):
+    delimiter_list = extract_delimiters(expresion, delimiters)
+    if open_equal_close(delimiter_list, delimiters):
+        return recursive_check(delimiter_list, delimiters)
+    else:
+        return False
 
 
-
-
-check_delimiter()
+print(check_delimiter())
