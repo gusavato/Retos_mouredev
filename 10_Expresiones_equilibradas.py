@@ -11,27 +11,39 @@
 # - Expresión balanceada: { [ a #( c + d ) ] - 5 }
 # - Expresión no balanceada: { a #( c + d ) ] - 5 }
 
-def check_delimiter(expresion):
-    delimiter = {'[': ']', '{': '}', '(': ')'}
-    for pos, char in enumerate(expresion):
-        if char in delimiter.keys():
-            if delimiter.get(char) in expresion[pos:]:
-                delimiter_end = expresion.index(delimiter.get(char))
-                if set(expresion[pos + 1:delimiter_end]) & (set(delimiter.keys() | set(delimiter.values()))):
-                    check_delimiter(expresion[pos + 1:delimiter_end])
-                else:
-                    break
-            else:
-                print('Expresión NO EQUILIBRADA no se ha encontrado el caracter {} de cierre\n{}'.
-                      format(delimiter[char], expresion))
-                return False
-        elif char in delimiter.values():
-            print('Expresión NO EQUILIBRADA no se ha encontrado el caracter {} de apertura\n{}'.
-                  format(list(delimiter.keys())[list(delimiter.values()).index(char)], expresion))
+
+def extract_delimiters(exp: object, delim: object) -> list:
+    exp_delim = []
+    for char in exp:
+        if char in delim.values() | delim.keys():
+            exp_delim.append(char)
+    return exp_delim
+
+
+def get_delimiters_count(delimiter_list,delimiters):
+    count = dict()
+    for k, v in delimiters.items():
+        delimiter_count[k] = delimiter_list.count(k)
+        delimiter_count.update({v: delimiter_list.count(v)})
+    return count
+
+def open_equal_close(delimiter_list,delimiters):
+    delimiters_count = get_delimiters_count(delimiter_list, delimiters)
+    for k, v in delimiters.items():
+        if delimiters_count.get(k) == delimiters_count.get(v):
+            continue
+        else:
             return False
-    print('Expresión EQUILIBRADA')
     return True
 
 
-expr = input('Introducir expresión:\n')
-check_delimiter(expr)
+def check_delimiter():
+    expresion = input('Introducir expresión:\n')
+    delimiters = {'[': ']', '{': '}', '(': ')'}
+    exp_delim = extract_delimiters(expresion, delimiters)
+    if open_equal_close(exp_delim,delimiters):
+
+
+
+
+check_delimiter()
