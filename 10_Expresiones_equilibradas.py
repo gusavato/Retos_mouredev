@@ -12,8 +12,7 @@
 # - Expresión no balanceada: { a #( c + d ) ] - 5 }
 
 
-def check_delimiter():
-    expresion = input('Introducir expresión:\n')
+def check_delimiter(expresion: str) -> bool:
     delimiters = {'[': ']', '{': '}', '(': ')'}
     list_delimiters = []
     for char in expresion:
@@ -30,4 +29,12 @@ def check_delimiter():
         return False
 
 
-print(check_delimiter())
+# TEST
+
+expresion = ['a + b {c-d}*[a+s]',
+             '{[}]',
+             '{[()]}',
+             '{[]']
+
+for i in expresion:
+    print('La expresión {}, {}'.format(i, 'está balanceada' if check_delimiter(i) else 'no está balancada'))
