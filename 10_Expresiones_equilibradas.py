@@ -12,49 +12,20 @@
 # - Expresión no balanceada: { a #( c + d ) ] - 5 }
 
 
-def extract_delimiters(exp: str, delimiters: dict) -> list:
-    exp_delim = []
-    for char in exp:
-        if char in delimiters.values() | delimiters.keys():
-            exp_delim.append(char)
-    return exp_delim
-
-
-def get_delimiters_count(delimiter_list: list, delimiters: dict) -> dict:
-    count = dict()
-    for k, v in delimiters.items():
-        count[k] = delimiter_list.count(k)
-        count.update({v: delimiter_list.count(v)})
-    return count
-
-
-def open_equal_close(delimiter_list: list, delimiters: dict) -> bool:
-    delimiters_count = get_delimiters_count(delimiter_list, delimiters)
-    for k, v in delimiters.items():
-        if delimiters_count.get(k) == delimiters_count.get(v):
-            continue
-        else:
-            return False
-    return True
-
-
-def recursive_check(delimiter_list: list, delimiters: dict) -> bool:
-    if delimiter_list == []:
-        return True
-    for pos, char in enumerate(delimiter_list):
-        if char in delimiters.values():
-            return False
-        else:
-            end_delimiter = delimiter_list.index(delimiters.get(char))
-            return recursive_check(delimiter_list[pos + 1: end_delimiter], delimiters)
-
-
 def check_delimiter():
     expresion = input('Introducir expresión:\n')
     delimiters = {'[': ']', '{': '}', '(': ')'}
-    delimiter_list = extract_delimiters(expresion, delimiters)
-    if open_equal_close(delimiter_list, delimiters):
-        return recursive_check(delimiter_list, delimiters)
+    list_delimiters = []
+    for char in expresion:
+        if char in delimiters.keys():
+            list_delimiters.append(char)
+        elif char in delimiters.values():
+            if list(delimiters.keys())[list(delimiters.values()).index(char)] == list_delimiters[-1]:
+                list_delimiters.pop()
+            else:
+                return False
+    if not list_delimiters:
+        return True
     else:
         return False
 
