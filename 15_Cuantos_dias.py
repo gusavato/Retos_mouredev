@@ -11,21 +11,26 @@
 # - La diferencia en días será absoluta (no importa el orden de las fechas).
 # - Si una de las dos cadenas de texto no representa una fecha correcta se lanzará una excepción.
 
-from datetime import datetime, timedelta
+from datetime import date
 
 
-def date_transform(str_date: str) -> datetime:
-    d, m, y = map(int, str_date.split('/'))
-    return datetime.date(day=d, month=m, year=y)
-
-
-def days_delta(str1: str, str2: str) -> int:
+def str_to_date(str1: str) -> date:
     try:
-        day_1 = date_transform(str1)
-        day_2 = date_transform(str2)
-    except:
-        print('Fechas introduciadas incorrectas. Formato admitido "dd/MM/yyyy"')
-    return
+        d, m, y = map(int, str1.split('/'))
+        date_transform = date(day=d, month=m, year=y)
+    except SyntaxError:
+        "Formato de fecha no válido. Formato correcto 'dd/MM/yyyy'"
+    return date_transform
 
 
-days_delta('12/10/2022', '10/10/2022')
+def date_substract(date1: str, date2: str) -> int:
+    date_1 = str_to_date(date1)
+    date_2 = str_to_date(date2)
+    substract = abs(date_1 - date_2)
+    return substract.days
+
+
+date_1 = input('Introduzca fecha 1: \n')
+date_2 = input('Introduzca fecha 2: \n')
+
+print(f'La difernecia de días entre {date_1} y {date_2} es: {date_substract(date_1, date_2)} días')
